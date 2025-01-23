@@ -389,7 +389,7 @@ function init() {
 
 function loadScript() {
   var script = document.createElement('script');
-  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDrq6itjJPber61m46hdD6xu_fwZ5zvnrQ&callback=init';
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=&callback=init';
   document.body.appendChild(script);
 }
 
