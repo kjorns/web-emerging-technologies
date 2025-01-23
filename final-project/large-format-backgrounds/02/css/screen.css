@@ -1,0 +1,650 @@
+/**
+ * Mobile First
+ * - Style All Screen Sizes
+ * - Then add min-width media query for larger screen
+ * - Then override css properties: values
+ * - Last rule will override previous rule
+ */
+
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+    outline: none;
+}
+
+ul, ol {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+sup {
+    line-height: 0;
+}
+
+.cf::before, .cf::after {
+    content: " ";
+    display: table;
+}
+
+.cf::after {
+    clear: both;
+}
+
+html {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100%;
+    margin: 0;
+    background:
+        #000
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.0) 30%,
+            rgba(1, 101, 160, 1) 100%
+        );
+}
+
+.container {
+    margin: 0 .625rem;
+    overflow: hidden;
+}
+
+/**
+ * .wrapper margin-top value
+ * - Pushes wrapper down
+ * - Makes room for fixed nav
+ * - em unit based on nherited font-size
+ * - 16px * 4.626 = 74px
+ */
+.wrapper {
+    border: 2px solid white;
+    border-radius: 10px;
+    background: #393B3D;
+    margin-top: 4.625em;
+    margin-bottom: 10px;
+}
+
+/**
+ * .header-main fixed
+ * - wrapper will slide under fixed nav
+ * - attach to top, right and left edge of screen
+ * - z-index is the stacking order - eg. layers in Photoshop
+ * - larger higher in the stack / negative lower in the stack
+ * - 100 is an arbitrary location with room below
+ */
+.header-main {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    background: #000 linear-gradient( to bottom, rgba(0, 159, 245, 1), rgba(0, 100, 225, 1) );
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0px 4px 6px 0px rgba(34, 37, 48, 0.62);
+}
+
+/**
+ * .header-main h1
+ * - line-height 2 times the inherited font-size
+ * - float left - shink wrap the width around the content
+ * - postion relative - can be positioned
+ * - left: 50% find the left edge of the element and align with 50% left of parent element
+ * - translateX move the element based on the element size -50% plus half the size of the hamburger
+ * - this will center the h1 in the negative space to the right of the hamburger
+ * - not the center of the parent element
+ */
+.header-main h1 {
+    line-height: 2;
+    float: left;
+    position: relative;
+    left: 50%;
+    transform: translateX( calc( -50% + 32px ) );
+    margin: 0;
+    color: #fff;
+    font-family: "Myriad Pro Regular", sans-serif;
+    font-weight: 200;
+    letter-spacing: 4px;
+    text-shadow: 0 -2px 2px rgba(0,0,0,0.6);
+}
+
+.header-main h1 sup {
+    font-size: .6em;
+}
+
+.nav-main {
+    position: relative;
+}
+
+/* hide the check box - input type=checkbox*/
+.nav-main-menu-toggle {
+    display: none;
+}
+
+/* style the checkbox's label */
+.nav-main-menu-toggle-icon {
+    position: fixed;
+    z-index: 200;
+    width: 64px;
+    height: 64px;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+/* position the span in the label - this is the hamburger of the hamburger icon */
+.nav-main-menu-toggle-icon span {
+    width: 80%;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+}
+
+/**
+ * .nav-main-menu-toggle-icon span
+ * - build the hamburger icon
+ * - ::before and ::after are pseudo elements
+ * - they do not exist in the markup but we can style them
+ * - every element that has content has ::before and ::after
+ * - each line is 6px tall with a 3px border radius
+ * - must use content property that will establish the pseudo element
+ */
+.nav-main-menu-toggle-icon span::before,
+.nav-main-menu-toggle-icon span,
+.nav-main-menu-toggle-icon span::after {
+    background-color: #fff;
+    height: 6px;
+    position: absolute;
+    content: '';
+    transition: all .25s ease-in;
+    border-radius: 3px;
+}
+
+.nav-main-menu-toggle-icon span::before {
+    width: 100%;
+    top: -10px;
+}
+
+.nav-main-menu-toggle-icon span::after {
+    width: 100%;
+    top: 10px;
+}
+
+/**
+ * .element ~ element
+ * - is the General sibling combinator
+ * - find .nav-main-menu-toggle:checked
+ * - when the input is checked...
+ * - style the .nav-main-menu-toggle-icon span
+ * - a trick to use the input type="checkbox" to trigger changes in our layout
+ */
+.nav-main-menu-toggle:checked ~ .nav-main-menu-toggle-icon span {
+    background-color: transparent;
+}
+
+.nav-main-menu-toggle:checked ~ .nav-main-menu-toggle-icon span::before,
+.nav-main-menu-toggle:checked ~ .nav-main-menu-toggle-icon span::after {
+    top: 0;
+}
+
+.nav-main-menu-toggle:checked ~ .nav-main-menu-toggle-icon span::before {
+    transform: rotate(-135deg);
+}
+
+.nav-main-menu-toggle:checked ~ .nav-main-menu-toggle-icon span::after {
+    transform: rotate(135deg);
+}
+
+/* style the UL left 0 with 0 can not be seen */
+.nav-main-menu {
+    position: fixed;
+    z-index: 50;
+    top: 4em;
+    left: 0;
+    width: 0;
+    height: calc(100vh - 3em);
+    transition:
+        width .5s .25s ease-in,
+        box-shadow .25s ease-in;
+    background-color: hsla(210,3%,23%,0.96);
+    box-shadow: none;
+    overflow-y: auto;
+}
+
+/* when input checked show the UL */
+.nav-main-menu-toggle:checked ~ .nav-main-menu {
+    width: 80vw;
+    box-shadow: 0 0 0 100vw hsla(210,3%,23%,0.40);
+
+}
+
+/* style the anchor */
+.nav-main-menu a {
+  position: relative;
+  display: block;
+  font-size: 1.4em;
+  line-height: 1.8em;
+  font-weight: 300;
+  color: #fff;
+  text-decoration: none;
+  text-indent: 1.25rem;
+  margin: 4px 0;
+  transition: all .25s ease-in;
+}
+
+/* create and style the anchor's ::before pseudo element */
+.nav-main-menu a::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-280%);
+  content: "";
+  display: inline-block;
+  width: 10px;
+  background: #fff;
+  transition: inherit;
+}
+
+/* style anchor :hover */
+.nav-main-menu a:hover {
+  text-indent: 1.5rem;
+}
+
+/* style the ::before when :hover on anchor */
+.nav-main-menu a:hover::before {
+  transform: translateX(100vw);
+  opacity: 0;
+}
+
+/* style the anchor of the current page */
+.nav-main-menu-current-menu-item a {
+    text-indent: 1.7rem;
+    font-weight: 600;
+}
+
+.nav-main-menu-current-menu-item a:hover {
+    text-indent: 1.7rem;
+}
+
+.nav-main-menu-current-menu-item a:hover::before {
+  transform: translateX(-280%);
+  opacity: 1;
+}
+
+.nav-main-menu-search input[type="search"] {
+/*  remove the default style - Safari */
+    -webkit-appearance: none;
+    font-family: inherit;
+    width: 100%;
+    height: 44px;
+    font-size: 1.4em;
+    line-height: 1.8em;
+    font-weight: 300;
+    background: hsla(0,0%,0%,0.40);
+    padding: 2px 0;
+    border: none;
+    border-left: 2px solid #fff;
+    text-indent: .88rem;
+    color: #fff;
+}
+
+.nav-main-menu-search input[type="search"]::-webkit-input-placeholder {
+    color: hsla(0,0%,100%,1);
+}
+.nav-main-menu-search input[type="search"]::-moz-placeholder {
+    color: hsla(0,0%,100%,1);
+}
+.nav-main-menu-search input[type="search"]::-ms-input-placeholder {
+    color: hsla(0,0%,100%,1);
+}
+.nav-main-menu-search input[type="search"]:-moz-placeholder {
+    color: hsla(0,0%,100%,1);
+}
+.nav-main-menu-search input[type="search"]::-webkit-input-placeholder {
+    color: hsla(0,0%,100%,1);
+}
+.nav-main-menu-search input[type="search"]::placeholder {
+    color: hsla(0,0%,100%,1);
+}
+
+
+.nav-main-menu-search label,
+.nav-main-menu-search input[type="submit"] {
+    display: none;
+}
+
+/* End Navigation: Small Screen: 0px and UP */
+
+section {
+    overflow: hidden;
+    margin: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.8);
+    background: #fff linear-gradient( to bottom, rgba(0,0,0,0.80) 0%, rgba(255,255,255,0.60) 5%, rgba(255,255,255,1) 20% );
+}
+
+img {
+    width: 100%;
+}
+
+footer {
+    clear: both;
+    overflow: auto;
+    margin: 0 20px;
+	padding: 0 0 20px;
+    color: #fff;
+}
+
+footer a[href^="//"] {
+    position: relative;
+    color: #000;
+    display: block;
+    line-height: 2em;
+    font-size: 0.625em;
+    background-color: #fff;
+    border-radius: 3px;
+    margin: 0 0 0 10px;
+    padding: 0 10px;
+    float: right;
+    text-decoration: none;
+    box-shadow: 0 2px 2px #000;
+}
+
+footer a[href^="//"]:active {
+    top: 2px;
+    box-shadow: none;
+}
+
+/*
+Start Media Query
+    if screen is 48rem or larger (can use px or em)
+    rem is based on font size of root element
+        (16px * 48 = 768)
+    use the following rules
+*/
+@media (min-width: 48rem) {
+
+/*  override margin */
+    .container {
+        width: 96%;
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    .column {
+        float: left;
+        padding-left: .625rem;
+        padding-right: .625rem;
+    }
+
+    .column.full {
+        width: 100%;
+    }
+
+    .column.two-thirds {
+        width: 66.7%;
+    }
+
+    .column.half {
+        width: 50%;
+    }
+
+    .column.third {
+        width: 33.3%;
+    }
+
+    .column.fourth {
+        width: 25%;
+    }
+
+    .column.flow-opposite {
+        float: right;
+    }
+
+/*  override background of body */
+    body {
+        min-height: calc(100vh - 40px);
+        background:
+
+            url("images/header-main2.jpg") center / cover fixed,
+
+            #000
+            linear-gradient(
+                to bottom,
+                hsla(0,0%,0%,0.0) 80%,
+                hsla(39, 100%, 50%,1.0) 100%
+            )
+            fixed;
+    }
+
+    .wrapper {
+      background: hsla(210,3%,23%,.50);
+      margin-top: calc(100vh + 20px);
+      padding-top: 20px;
+    }
+/*  override size and postion of header */
+    .header-main {
+        position: absolute;
+        z-index: -10;
+        overflow: hidden;
+        height: 100vh;
+        background:
+        linear-gradient(
+            to bottom,
+            hsla(0,0%,100%,.80) 30vh,
+            hsla(227, 98%, 37%, 0.0) ) fixed,
+        url("images/header-main2.jpg") center / cover;
+        border-radius: 0px;
+        border: none;
+        /*margin: 20px;*/
+    }
+    
+    .header-main::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 10%;
+        transform: rotate(-45deg);
+        border-bottom: 6px solid hsla(39, 100%, 50%,1.00);
+        border-left: 6px solid hsla(39, 100%, 50%,1.00);
+        border-radius: 3px;
+        width: 96px;
+        height: 96px;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+    }
+    
+    @keyframes bounce {
+      from, 20%, 53%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0,0,0) rotate(-45deg);
+      }
+
+      40%, 43% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -30px, 0) rotate(-45deg);
+      }
+
+      70% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -15px, 0) rotate(-45deg);
+      }
+
+      90% {
+        transform: translate3d(0, -4px, 0) rotate(-45deg);
+      }
+    }
+
+    .header-main h1 {
+        font-family: 'Graduate', cursive;
+        line-height: 1;
+        font-size: calc( 100vw * .1250 );
+        color: hsla(39, 100%, 50%);
+        text-shadow: 0px 10px 10px rgb(0,90,255);
+        mix-blend-mode: hard-light;
+        top: 48vh;
+        left: 52vw;
+        animation-name: bounceInDown; 
+        animation-duration: 1s;
+        animation-fill-mode: both; 
+    }
+    
+    @keyframes bounceInDown {
+        from, 60%, 75%, 90%, to {
+            animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        }
+
+        0% {
+            opacity: 0;
+            transform: translate3d(-50%, -3000px, 0);
+        }
+
+        60% {
+            opacity: 1;
+            transform: translate3d(-50%, 25px, 0);
+        }
+
+        75% {
+            transform: translate3d(-50%, -120%, 0);
+        }
+
+        90% {
+            transform: translate3d(-50%, 5px, 0);
+        }
+
+        to {
+            transform: translate3d(-50%, -110%, 0);
+        }
+    }
+
+
+
+/*  hide the checkbox and the hamburger */
+    .nav-main-menu-toggle,
+    .nav-main-menu-toggle-icon {
+        display: none;
+    }
+
+/*  override and reset to no style */
+    .nav-main-menu {
+        position: relative;
+        z-index: 0;
+        top: auto;
+        left: auto;
+        width: auto;
+        height: auto;
+        transition: none;
+        background-color: transparent;
+        box-shadow: none;
+        overflow: hidden;
+        padding: 0 20px;
+    }
+
+/*  override and reset to no style */
+    .nav-main-menu-toggle:checked ~ .nav-main-menu {
+        width: auto;
+        box-shadow: none;
+    }
+
+/*  basic style for navigation large screen */
+    .nav-main-menu li {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+
+    .nav-main-menu .nav-main-menu-search {
+        float: right;
+
+    }
+
+    #nav-main-menu-search {
+        position: absolute;
+        right: 20px;
+        width: 140px;
+        transition: all 1.25s;
+    }
+
+    #nav-main-menu-search:focus {
+        width: calc( 50% - 20px );
+        background: hsla(0,0%,0%,0.80);
+    }
+
+/*  override and style for navigation large screen */
+    .nav-main-menu a {
+        position: relative;
+        display: block;
+        text-indent: 0;
+        margin: 0;
+        border: 2px solid gray;
+        border-radius: 10px;
+        transition: all .25s;
+        padding: 0 40px;
+        overflow: hidden;
+    }
+
+/*  new style for the a::before */
+    .nav-main-menu a::before {
+        display: block;
+        z-index: 1;
+        transform: translateX(-920%);
+        background: hsla(0,0%,100%,1.00)
+    }
+
+/*  style for navigation large screen */
+    .nav-main-menu a:hover {
+        text-indent: 0;
+        color: hsla(0,0%,100%,0.00);
+    }
+
+    .nav-main-menu a:hover::before {
+        transform: translateX(920%);
+        background: hsla(0,0%,100%,0.00);
+    }
+
+    .nav-main-menu a::after {
+        transition: all .25s;
+        position: absolute;
+        content: attr(data-text);
+        color: #fff;
+        transform: translateX(-100%) scale(0);
+        font-weight: 600;
+    }
+
+    .nav-main-menu a:hover::after {
+        transform: translateX(-100%) scale(1.2);
+    }
+
+    .nav-main-menu a:active {
+        box-shadow: inset 0 4px 6px #000;
+    }
+
+    .nav-main-menu-current-menu-item a {
+        box-shadow: inset 0 4px 6px #000;
+    }
+
+    section {
+        background: 
+            hsla(0,0%,100%, .40) 
+            linear-gradient( 
+                to bottom, 
+                rgba(0,0,0,0.80) 0%, 
+                rgba(255,255,255,0.60) 5%, 
+                rgba(255,255,255,.40) 20% );
+    }
+
+    img {
+        width: auto;
+        float: right;
+        margin: 0 0 2px 4px;
+    }
+} /* Close: @media (min-width: 48rem) */

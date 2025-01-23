@@ -1,0 +1,50 @@
+body {
+	background-color: green;
+}
+
+h1 {
+	color: yellow;
+}
+
+h2 {
+	color: white;
+}
+
+.column {
+	float: left;
+	width: 50%;
+}
+
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+table, td {
+	border: 1px solid yellow;
+}
+
+td {
+	padding: 15px;
+	text-align: center;
+}
+
+footer {
+	color: yellow;
+}
+
+.hof {
+	background-image: linear-gradient(#0000A0, #FFFF00);
+}
+
+a:link	{
+		color: #FFFFFF;
+	}
+
+a:visited {
+		color: #0000A0;
+	}
+
+a:hover	{
+		color: #FFFF00;

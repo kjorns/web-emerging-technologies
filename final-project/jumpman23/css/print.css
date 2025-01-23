@@ -1,0 +1,16 @@
+#nav-main {
+	display: none;
+}
+
+img, img-left, img-right {
+	float: right;
+	margin: 0 0 2px 4px;
+}
+
+.slicknav_menu {
+	display: none;
+}
+
+.fancybox-container {
+    display: none;
+}
